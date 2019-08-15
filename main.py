@@ -1,4 +1,6 @@
 
+import common
+
 BANNER = '''                                            
 @@@  @@@  @@@@@@@@  @@@@@@@   @@@   @@@@@@   
 @@@  @@@  @@@@@@@@  @@@@@@@@  @@@  @@@@@@@   
@@ -11,7 +13,7 @@ BANNER = '''
  ::  :::   :: ::::  ::   :::   ::  :::: ::   
  :   :::  : :: ::    :   : :  :    :: : :
 
- brute force tools                                                
+ :brute force tools: version 0.0.0                                          
 '''
 
 
@@ -30,17 +32,19 @@ def give_color(text, color):
     if not color in COLORS: return text
     return COLORS[color]+text+COLORS['close']
 
-def menu_one():
-    print('call menu_one()')
-    input('press [Enter]..')
+def menu_whois():
+    host = input('input some domain [eg: www.example.com]:')
+    print(host)
+    lines = common.who_is(host)
+    for line in lines:
+        print(line)
 
-def menu_two():
-    print('call menu_two()')
-    input('press [Enter]..')
+def menu_ssh():
+    host = input('input some domain for brute ssh [eg: www.example.com]:')
 
 menus = [
-    {'menu one': menu_one},
-    {'menu two': menu_two},
+    {'show whois data': menu_whois},
+    {'brute ssh': menu_ssh},
     {'exit': exit}
 ]
 
