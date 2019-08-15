@@ -15,12 +15,16 @@ def execute_ssh(host, username, password, cmd, port='22'):
 
             error = stderr.read().decode('utf-8')
             if error:
+                print(error)
                 return 'SSH_CONNECTION_FAIL'
             else:
                 ssh.close()
                 return 'SSH_CONNECTION_SUCCESS with username : {username} and password {password}'.format(username=username, password=password)
-        except Exception as e:
+        except Exception:
+            print('*')
             return 'SSH_CONNECTION_FAIL'
     else:
         return 'CONNECTION_NOT_FOUND'
         
+res = execute_ssh('128.199.204.131', 'devuser', 'Rkht34$.Hkq9lsi%rt1', 'pwd', '2217')
+print(res)
