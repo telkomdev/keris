@@ -26,5 +26,3 @@ def execute_ssh(host, username, password, cmd, port='22'):
     else:
         return 'CONNECTION_NOT_FOUND'
         
-res = execute_ssh('128.199.204.131', 'devuser', 'Rkht34$.Hkq9lsi%rt1', 'pwd', '2217')
-print(res)
