@@ -1,5 +1,11 @@
 import socket
 
+"""
+is_connection_ok()
+
+check internet connection, return True if connection was ok
+return boolean
+"""
 def is_connection_ok():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.settimeout(2)
@@ -14,12 +20,21 @@ def is_connection_ok():
     finally:
         client.close()
 
+"""
+get_ip(host)
+
+params domain, eg: get_ip('www.example.com')
+return ip address
+"""
 def get_ip(host):
     try:
         return socket.gethostbyname(host)
     except:
         return 'INVALID_HOST_NAME'
 
+"""
+return whois with its suffix
+"""
 def get_tld_server(tld="com"):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(("whois.iana.org", 43))
@@ -31,7 +46,13 @@ def get_tld_server(tld="com"):
             header_value = parts[1].strip()
             if header_name.lower() == "whois":
                 return header_value
-                
+
+"""
+who_is(host)
+
+params domain, eg: who_is('www.example.com')
+return whois data
+"""        
 def who_is(host, server=None):
     if not server:
         tld = host.split(".")[-1]
@@ -51,7 +72,7 @@ def who_is(host, server=None):
 
 
 
-#print(is_connection_ok())
+# print(is_connection_ok())
 
 # print(who_is('neucentrix.co.id'))
-print(next(who_is('neucentrix.co.id')))
+# print(next(who_is('neucentrix.co.id')))
