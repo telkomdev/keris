@@ -20,7 +20,7 @@ def scan_ports(host, from_port, to_port):
                 
                 for port in range(from_port, to_port):
                     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    socket.setdefaulttimeout(1)
+                    client.settimeout(1)
 
                     print(give_color(' Scanning PORT {}'.format(port), 'cyan'))
 
