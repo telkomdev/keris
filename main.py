@@ -1,5 +1,8 @@
 
+import sys
 import common
+from colors import give_color
+from port_scanner import scan_ports
 
 BANNER = '''                                            
 @@@  @@@  @@@@@@@@  @@@@@@@   @@@   @@@@@@   
@@ -16,22 +19,6 @@ BANNER = '''
  :brute force tools: version 0.0.0                                          
 '''
 
-
-COLORS = {
-    'red': '\033[91m',
-    'green': '\033[92m',
-    'yellow': '\033[93m',
-    'blue': '\033[94m',
-    'pink': '\033[95m',
-    'cyan': '\033[96m',
-    'white': '\033[97m',
-    'close': '\033[0m'
-}
-
-def give_color(text, color): 
-    if not color in COLORS: return text
-    return COLORS[color]+text+COLORS['close']
-
 def menu_whois():
     host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
     if len(host) <= 0:
@@ -43,13 +30,28 @@ def menu_whois():
     for line in lines:
         print(line)
 
+def menu_port_scanner():
+    host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
+    if len(host) <= 0:
+        print(give_color('invalid host', 'red'))
+        return
+    result = scan_ports(host, 50, 81)
+    if (result != "DONE"):
+        print(give_color('error {}'.format(result), 'red'))
+        return
+
 def menu_ssh():
     host = input(give_color('input some domain for brute ssh [eg: www.example.com]: ', 'red'))
+
+def manu_exit():
+    print(give_color('bye..', 'cyan'))
+    sys.exit(0)
 
 menus = [
     {'show whois data': menu_whois},
     {'brute ssh': menu_ssh},
-    {'exit': exit}
+    {'port scanner': menu_port_scanner},
+    {'exit': manu_exit}
 ]
 
 def main_menu():
