@@ -5,18 +5,18 @@ from colors import give_color
 from port_scanner import scan_ports
 
 BANNER = '''                                            
-@@@  @@@  @@@@@@@@  @@@@@@@   @@@   @@@@@@   
-@@@  @@@  @@@@@@@@  @@@@@@@@  @@@  @@@@@@@   
-@@!  !@@  @@!       @@!  @@@  @@!  !@@       
-!@!  @!!  !@!       !@!  @!@  !@!  !@!       
-@!@@!@!   @!!!:!    @!@!!@!   !!@  !!@@!!    
-!!@!!!    !!!!!:    !!@!@!    !!!   !!@!!!   
-!!: :!!   !!:       !!: :!!   !!:       !:!  
-:!:  !:!  :!:       :!:  !:!  :!:      !:!   
- ::  :::   :: ::::  ::   :::   ::  :::: ::   
- :   :::  : :: ::    :   : :  :    :: : :
+            @@@  @@@  @@@@@@@@  @@@@@@@   @@@   @@@@@@   
+            @@@  @@@  @@@@@@@@  @@@@@@@@  @@@  @@@@@@@   
+            @@!  !@@  @@!       @@!  @@@  @@!  !@@       
+            !@!  @!!  !@!       !@!  @!@  !@!  !@!       
+            @!@@!@!   @!!!:!    @!@!!@!   !!@  !!@@!!    
+            !!@!!!    !!!!!:    !!@!@!    !!!   !!@!!!   
+            !!: :!!   !!:       !!: :!!   !!:       !:!  
+            :!:  !:!  :!:       :!:  !:!  :!:      !:!   
+            ::  :::   :: ::::  ::   :::   ::  :::: ::   
+            :   :::  : :: ::    :   : :  :    :: : :
 
- :brute force tools: version 0.0.0                                          
+ :a collection of brute force tools and network utility: version 0.0.0                                          
 '''
 
 def menu_whois():
@@ -32,10 +32,22 @@ def menu_whois():
 
 def menu_port_scanner():
     host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
+
     if len(host) <= 0:
         print(give_color('invalid host', 'red'))
         return
-    result = scan_ports(host, 50, 81)
+
+    from_port = input(give_color('from port [eg: 8000]:', 'red'))
+    if (not from_port.isdigit()):
+        print(give_color('invalid port number', 'red'))
+        return
+    
+    to_port = input(give_color('to port [eg: 9000]:', 'red'))
+    if (not to_port.isdigit()):
+        print(give_color('invalid port number', 'red'))
+        return
+
+    result = scan_ports(host, int(from_port), int(to_port))
     if (result != "DONE"):
         print(give_color('error {}'.format(result), 'red'))
         return
