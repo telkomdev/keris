@@ -26,6 +26,10 @@ def menu_whois():
         print(give_color('invalid host', 'red'))
         return
 
+    if not common.is_valid_url(host):
+        print(give_color('invalid host', 'red'))
+        return
+
 
     lines = common.who_is(host)
     for line in lines:
@@ -35,6 +39,10 @@ def menu_port_scanner():
     host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
 
     if len(host) <= 0:
+        print(give_color('invalid host', 'red'))
+        return
+    
+    if not common.is_valid_url(host):
         print(give_color('invalid host', 'red'))
         return
 
