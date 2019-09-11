@@ -21,7 +21,7 @@ BANNER = '''
 '''
 
 def menu_whois():
-    host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
+    host = input(give_color('input target domain [eg: www.example.com]:', 'red'))
     if len(host) <= 0:
         print(give_color('invalid host', 'red'))
         return
@@ -36,7 +36,7 @@ def menu_whois():
         print(line)
 
 def menu_port_scanner():
-    host = input(give_color('input some domain [eg: www.example.com]:', 'red'))
+    host = input(give_color('input target domain [eg: www.example.com]:', 'red'))
 
     if len(host) <= 0:
         print(give_color('invalid host', 'red'))
@@ -62,7 +62,7 @@ def menu_port_scanner():
         return
 
 def menu_ssh():
-    host = input(give_color('input some domain for brute ssh [eg: www.example.com]: ', 'red'))
+    host = input(give_color('input target domain for brute ssh [eg: www.example.com]: ', 'red'))
 
 def manu_exit():
     print(give_color('bye..', 'cyan'))
