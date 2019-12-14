@@ -4,6 +4,7 @@ import sys
 import common
 from colors import give_color
 from port_scanner import scan_ports
+from sig import Signal
 
 BANNER = '''                                            
             @@@  @@@  @@@@@@@@  @@@@@@@   @@@   @@@@@@   
@@ -20,6 +21,11 @@ BANNER = '''
  :a collection of brute force tools and network utility: version 0.0.0                                          
 '''
 
+"""
+Signal instance will manage gracefull shutdown
+"""
+sig = Signal()
+
 def menu_whois():
     host = input(give_color('input target domain [eg: www.example.com]:', 'red'))
     if len(host) <= 0:
@@ -35,31 +41,33 @@ def menu_whois():
     for line in lines:
         print(line)
 
-def menu_port_scanner():
-    host = input(give_color('input target domain [eg: www.example.com]:', 'red'))
+def menu_port_scanner(sig):
+    def scan():
+        host = input(give_color('input target domain [eg: www.example.com]:', 'red'))
 
-    if len(host) <= 0:
-        print(give_color('invalid host', 'red'))
-        return
-    
-    if not common.is_valid_url(host):
-        print(give_color('invalid host', 'red'))
-        return
+        if len(host) <= 0:
+            print(give_color('invalid host', 'red'))
+            return
+        
+        if not common.is_valid_url(host):
+            print(give_color('invalid host', 'red'))
+            return
 
-    from_port = input(give_color('from port [eg: 8000]:', 'red'))
-    if (not from_port.isdigit()):
-        print(give_color('invalid port number', 'red'))
-        return
-    
-    to_port = input(give_color('to port [eg: 9000]:', 'red'))
-    if (not to_port.isdigit()):
-        print(give_color('invalid port number', 'red'))
-        return
+        from_port = input(give_color('from port [eg: 8000]:', 'red'))
+        if (not from_port.isdigit()):
+            print(give_color('invalid port number', 'red'))
+            return
+        
+        to_port = input(give_color('to port [eg: 9000]:', 'red'))
+        if (not to_port.isdigit()):
+            print(give_color('invalid port number', 'red'))
+            return
 
-    result = scan_ports(host, int(from_port), int(to_port))
-    if (result != "DONE"):
-        print(give_color('error {}'.format(result), 'red'))
-        return
+        result = scan_ports(host, int(from_port), int(to_port), sig)
+        if (result != "DONE"):
+            print(give_color('error {}'.format(result), 'red'))
+            return
+    return scan
 
 def menu_ssh():
     host = input(give_color('input target domain for brute ssh [eg: www.example.com]: ', 'red'))
@@ -71,7 +79,7 @@ def manu_exit():
 menus = [
     {'show whois data': menu_whois},
     {'brute ssh': menu_ssh},
-    {'port scanner': menu_port_scanner},
+    {'port scanner': menu_port_scanner(sig)},
     {'exit': manu_exit}
 ]
 
