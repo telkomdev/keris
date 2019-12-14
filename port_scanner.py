@@ -9,7 +9,7 @@ params:
    - from port
    - to port
 """
-def scan_ports(host, from_port, to_port):
+def scan_ports(host, from_port, to_port, sig):
     if is_connection_ok():
         ip_res = get_ip(host)
 
@@ -28,6 +28,9 @@ def scan_ports(host, from_port, to_port):
                     if result == 0:
                         print(give_color('PORT {} is open'.format(port), 'cyan'))
                     client.close()
+                    if sig.kill:
+                        #print('killll')
+                        break
                 return "DONE"
 
     else:
